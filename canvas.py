@@ -7,6 +7,9 @@ class Canvas(object):
 
     def __init__(self, w, h):
 
+        self.width = w
+        self.height = h
+
         # Initialize a canvas of size x by y, filled with spaces
         self.canvas = [[' ' for x in range(w + 2)] for y in range(h + 2)]
 
@@ -47,3 +50,6 @@ class Canvas(object):
         self.draw_line(x1, y1, x1, y2)
         # Draw the right side vertical line
         self.draw_line(x2, y1, x2, y2)
+
+    def fill_area(self, x, y, c):
+        pass

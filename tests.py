@@ -73,6 +73,54 @@ class TestCanvas(unittest.TestCase):
 
         self.assertEqual(expected_canvas, new_canvas.canvas)
 
+    def test_fill_area_1(self):
+
+        expected_canvas = [[ '-',  '-',  '-',  '-',  '-', '-', '-'],
+                           [ '|',  'x',  'x',  'x',  'x', ' ', '|'],
+                           [ '|',  'x',  ' ',  ' ',  'x', ' ', '|'],
+                           [ '|',  'x',  'x',  'x',  'x', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
+                           [ '|',  ' ',  'x',  'x',  'x', 'x', '|'],
+                           [ '|',  ' ',  'x',  'o',  'o', 'x', '|'],
+                           [ '|',  ' ',  'x',  'o',  'o', 'x', '|'],
+                           [ '|',  ' ',  'x',  'o',  'o', 'x', '|'],
+                           [ '|',  ' ',  'x',  'x',  'x', 'x', '|'],
+                           [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
+
+        new_canvas = Canvas(5,10)
+
+        new_canvas.draw_rectangle(1, 1, 4, 3)
+        new_canvas.draw_rectangle(2, 6, 5, 10)
+
+        new_canvas.fill_area(4, 9, 'o')
+
+        self.assertEqual(expected_canvas, new_canvas.canvas)
+
+    def test_fill_area_2(self):
+
+        expected_canvas = [[ '-',  '-',  '-',  '-',  '-', '-', '-'],
+                           [ '|',  'x',  'x',  'x',  'x', 'v', '|'],
+                           [ '|',  'x',  ' ',  ' ',  'x', 'v', '|'],
+                           [ '|',  'x',  'x',  'x',  'x', 'v', '|'],
+                           [ '|',  'v',  'v',  'v',  'v', 'v', '|'],
+                           [ '|',  'v',  'v',  'v',  'v', 'v', '|'],
+                           [ '|',  'v',  'x',  'x',  'x', 'x', '|'],
+                           [ '|',  'v',  'x',  ' ',  ' ', 'x', '|'],
+                           [ '|',  'v',  'x',  ' ',  ' ', 'x', '|'],
+                           [ '|',  'v',  'x',  ' ',  ' ', 'x', '|'],
+                           [ '|',  'v',  'x',  'x',  'x', 'x', '|'],
+                           [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
+
+        new_canvas = Canvas(5,10)
+
+        new_canvas.draw_rectangle(1, 1, 4, 3)
+        new_canvas.draw_rectangle(2, 6, 5, 10)
+
+        new_canvas.fill_area(5, 4, 'v')
+
+        self.assertEqual(expected_canvas, new_canvas.canvas)
+
 
 if __name__ == '__main__':
     unittest.main()
