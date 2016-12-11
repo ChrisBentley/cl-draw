@@ -24,9 +24,7 @@ class Canvas(object):
         if (x1 == x2):
             # Switch y values so it always draws in one direction
             if y1 > y2:
-                temp = y1
-                y1 = y2
-                y2 = temp
+                y1, y2 = y2, y1
 
             for y in range(y1, (y2+1)):
                 self.canvas[y][x1] = 'x'
@@ -35,9 +33,7 @@ class Canvas(object):
         if (y1 == y2):
             # Switch y values so it always draws in one direction
             if x1 > x2:
-                temp = x1
-                x1 = x2
-                x2 = temp
+                x1, x2 = x2, x1
 
             for x in range(x1, (x2+1)):
                 self.canvas[y1][x] = 'x'
