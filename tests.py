@@ -57,6 +57,22 @@ class TestCanvas(unittest.TestCase):
 
         self.assertEqual(expected_canvas, new_canvas.canvas)
 
+    def test_draw_rectangle(self):
+
+        expected_canvas = [[ '-',  '-',  '-',  '-',  '-', '-', '-'],
+                           [ '|',  ' ',  'x',  'x',  'x', ' ', '|'],
+                           [ '|',  ' ',  'x',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  'x',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  'x',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  'x',  'x',  'x', ' ', '|'],
+                           [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
+
+        new_canvas = Canvas(5,5)
+
+        new_canvas.draw_rectangle(2, 1, 4, 5)
+
+        self.assertEqual(expected_canvas, new_canvas.canvas)
+
 
 if __name__ == '__main__':
     unittest.main()

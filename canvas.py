@@ -41,3 +41,13 @@ class Canvas(object):
 
             for x in range(x1, (x2+1)):
                 self.canvas[y1][x] = 'x'
+
+    def draw_rectangle(self, x1, y1, x2, y2):
+        # Draw the top horizontal line
+        self.draw_line(x1, y1, x2, y1)
+        # Draw the bottom horizonal line
+        self.draw_line(x1, y2, x2, y2)
+        # Draw the left side vertical line
+        self.draw_line(x1, y1, x1, y2)
+        # Draw the right side vertical line
+        self.draw_line(x2, y1, x2, y2)
