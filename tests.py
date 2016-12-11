@@ -14,15 +14,46 @@ class TestCanvas(unittest.TestCase):
 
     def test_create_canvas(self):
 
-        expected_canvas = [ [ '-',  '-',  '-',  '-',  '-', '-', '-'],
-                           [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
+        expected_canvas = [[ '-',  '-',  '-',  '-',  '-', '-', '-'],
                            [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
                            [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
                            [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
                            [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
                            [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
 
-        new_canvas = Canvas(5, 5)
+        new_canvas = Canvas(5, 4)
+
+        self.assertEqual(expected_canvas, new_canvas.canvas)
+
+    def test_draw_horizontal_line(self):
+
+        expected_canvas = [[ '-',  '-',  '-',  '-',  '-', '-', '-'],
+                           [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
+                           [ '|',  'x',  'x',  'x',  ' ', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
+                           [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
+
+        new_canvas = Canvas(5,5)
+
+        new_canvas.draw_line(1, 2, 3, 2)
+
+        self.assertEqual(expected_canvas, new_canvas.canvas)
+
+    def test_draw_vertical_line(self):
+
+        expected_canvas = [[ '-',  '-',  '-',  '-',  '-', '-', '-'],
+                           [ '|',  ' ',  ' ',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
+                           [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
+
+        new_canvas = Canvas(5,5)
+
+        new_canvas.draw_line(4, 1, 4, 4)
 
         self.assertEqual(expected_canvas, new_canvas.canvas)
 
