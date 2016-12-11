@@ -52,4 +52,32 @@ class Canvas(object):
         self.draw_line(x2, y1, x2, y2)
 
     def fill_area(self, x, y, c):
-        pass
+        self.colour = c
+        self.coordinates_stack = []
+        self.coordinates_stack.append([x,y])
+
+        while (len(self.coordinates_stack) > 0):
+            for coords in self.coordinates_stack:
+                self.check_coords(coords)
+                self.coordinates_stack.remove(coords)
+
+    def check_coords(self, coords):
+        x = coords[0]
+        y = coords[1]
+
+        if (x < 1 or x > self.width):
+            return
+        if (y < 1 or y > self.height):
+            return
+
+        if (self.canvas[y][x] != '-' and
+            self.canvas[y][x] != '|' and
+            self.canvas[y][x] != 'x' and
+            self.canvas[y][x] != self.colour):
+            self.canvas[y][x] = self.colour
+            self.coordinates_stack.append([(x+1),y])
+            self.coordinates_stack.append([(x-1),y])
+            self.coordinates_stack.append([x,(y+1)])
+            self.coordinates_stack.append([x,(y-1)])
+
+        return
