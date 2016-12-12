@@ -13,7 +13,7 @@ from canvas import Canvas
 
 def check_user_input(user_input_array):
 
-    valid_commands = ['c', 'l', 'r', 'b', 'q']
+    valid_commands = ['c', 'l', 'r', 'b', 'q', 'h']
 
     if (user_input_array[0].lower() in valid_commands):
         return True
@@ -30,6 +30,7 @@ def quit():
 def help_prompt():
 
     print('\nAvailable commands:')
+    print('"h" - Displays this help prompt.')
     print('"C w h" - Creates a canvas of width "w" and height "h".')
     print('"L x1 y1 x2 y2" - Creates a new line from (x1,y1) to (x2,y2) Only horizontal and vertical lines are supported.')
     print('"R x1 y1 x2 y2" - Creates a rectangle from upper left corner (x1,y1) to lower right corner (x2,y2).')
@@ -100,7 +101,7 @@ def validate_and_fill_area(user_input_array, canvas):
 
 def main():
 
-    print('\nWelcome to draw.py. For a list of available commands you can type "help" or "h".')
+    print('\nWelcome to draw.py. For a list of available commands you can type "h".')
 
     canvas = None
 
@@ -118,6 +119,10 @@ def main():
 
         if (command == 'q'):
             quit()
+
+        if (command == 'h'):
+            help_prompt()
+            continue
 
         if (command != 'c' and canvas == None):
             print('You need to create a canvas before you can draw something.')
