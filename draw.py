@@ -61,7 +61,7 @@ def validate_and_create_canvas(user_input_array):
         print('\nThe values you entered for creating a canvas were not valid.')
         return None
 
-    if (w < 0 or h < 0):
+    if (w <= 0 or h <= 0):
         print('Please enter canvas values greater than 0.')
         return None
 

@@ -10,6 +10,7 @@ from contextlib import redirect_stdout
 class TestDraw(unittest.TestCase):
 
     def test_correct_check_user_input(self):
+
         correct_user_input_array = ['c', '20', '4']
 
         self.assertTrue(check_user_input(correct_user_input_array))
@@ -25,6 +26,7 @@ class TestDraw(unittest.TestCase):
         self.assertFalse(result)
 
     def test_print_canvas(self):
+
         expected_output =   '-------' \
                           '\n|     |' \
                           '\n|     |' \
@@ -42,6 +44,32 @@ class TestDraw(unittest.TestCase):
 
         self.assertEqual(expected_output, output)
 
+    def test_correct_create_canvas(self):
+
+        expected_output = Canvas(20, 4)
+        user_input_array = ['c', '20', '4']
+        output = validate_and_create_canvas(user_input_array)
+
+        self.assertEqual(expected_output.canvas, output.canvas)
+
+    def test_incorrect_create_canvas(self):
+
+        out = StringIO()
+
+        user_input_array = ['c', 'a', '4']
+        with redirect_stdout(out):
+            output = validate_and_create_canvas(user_input_array)
+        self.assertEqual(None, output)
+
+        user_input_array = ['c', '0', '0']
+        with redirect_stdout(out):
+            output = validate_and_create_canvas(user_input_array)
+        self.assertEqual(None, output)
+
+        user_input_array = ['c', '10000', '10000']
+        with redirect_stdout(out):
+            output = validate_and_create_canvas(user_input_array)
+        self.assertEqual(None, output)
 
 class TestCanvas(unittest.TestCase):
 
