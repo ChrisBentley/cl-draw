@@ -52,8 +52,7 @@ class TestDraw(unittest.TestCase):
 
         self.assertEqual(expected_output.canvas, output.canvas)
 
-    def test_incorrect_create_canvas(self):
-
+    def test_create_canvas_invalid_coords(self):
         out = StringIO()
 
         user_input_array = ['c', 'a', '4']
@@ -61,10 +60,16 @@ class TestDraw(unittest.TestCase):
             output = validate_and_create_canvas(user_input_array)
         self.assertEqual(None, output)
 
+    def test_create_canvas_0_dimension_canvas(self):
+        out = StringIO()
+
         user_input_array = ['c', '0', '0']
         with redirect_stdout(out):
             output = validate_and_create_canvas(user_input_array)
         self.assertEqual(None, output)
+
+    def test_create_canvas_extremely_large(self):
+        out = StringIO()
 
         user_input_array = ['c', '10000', '10000']
         with redirect_stdout(out):
@@ -89,7 +94,7 @@ class TestDraw(unittest.TestCase):
 
         self.assertEqual(expected_canvas, new_canvas.canvas)
 
-    def test_incorrect_draw_line_1(self):
+    def test_draw_line_invalid_coords(self):
         out = StringIO()
         new_canvas = Canvas(5, 5)
 
@@ -101,7 +106,7 @@ class TestDraw(unittest.TestCase):
 
         self.assertEqual('The', output_array[0])
 
-    def test_incorrect_draw_line_2(self):
+    def test_draw_line_off_canvas(self):
         out = StringIO()
         new_canvas = Canvas(5, 5)
 
@@ -113,7 +118,7 @@ class TestDraw(unittest.TestCase):
 
         self.assertEqual('No', output_array[0])
 
-    def test_incorrect_draw_line_3(self):
+    def test_draw_line_not_a_line(self):
         out = StringIO()
         new_canvas = Canvas(5, 5)
 
@@ -143,7 +148,7 @@ class TestDraw(unittest.TestCase):
 
         self.assertEqual(expected_canvas, new_canvas.canvas)
 
-    def test_incorrect_draw_rectangle_1(self):
+    def test_draw_rectangle_invalid_coords(self):
         out = StringIO()
         new_canvas = Canvas(5, 5)
 
@@ -155,7 +160,7 @@ class TestDraw(unittest.TestCase):
 
         self.assertEqual('The', output_array[0])
 
-    def test_incorrect_draw_rectangle_2(self):
+    def test_draw_rectangle_off_canvas(self):
         out = StringIO()
         new_canvas = Canvas(5, 5)
 
@@ -167,7 +172,7 @@ class TestDraw(unittest.TestCase):
 
         self.assertEqual('No', output_array[0])
 
-    def test_incorrect_draw_rectangle_3(self):
+    def test_draw_rectangle_not_rectangle(self):
         out = StringIO()
         new_canvas = Canvas(5, 5)
 
@@ -178,6 +183,93 @@ class TestDraw(unittest.TestCase):
         output_array = output.split(' ')
 
         self.assertEqual('No', output_array[0])
+
+    def test_correct_fill_area(self):
+
+        expected_canvas = [[ '-',  '-',  '-',  '-',  '-', '-', '-'],
+                           [ '|',  'x',  'x',  'x',  'x', 'v', '|'],
+                           [ '|',  'x',  ' ',  ' ',  'x', 'v', '|'],
+                           [ '|',  'x',  'x',  'x',  'x', 'v', '|'],
+                           [ '|',  'v',  'v',  'v',  'v', 'v', '|'],
+                           [ '|',  'v',  'v',  'v',  'v', 'v', '|'],
+                           [ '|',  'v',  'x',  'x',  'x', 'x', '|'],
+                           [ '|',  'v',  'x',  ' ',  ' ', 'x', '|'],
+                           [ '|',  'v',  'x',  ' ',  ' ', 'x', '|'],
+                           [ '|',  'v',  'x',  ' ',  ' ', 'x', '|'],
+                           [ '|',  'v',  'x',  'x',  'x', 'x', '|'],
+                           [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
+
+        new_canvas = Canvas(5,10)
+
+        new_canvas.draw_rectangle(1, 1, 4, 3)
+        new_canvas.draw_rectangle(2, 6, 5, 10)
+
+        user_input_array = ['B', '5', '4', 'v']
+
+        validate_and_fill_area(user_input_array, new_canvas)
+
+        self.assertEqual(expected_canvas, new_canvas.canvas)
+
+    def test_fill_area_not_coordinates(self):
+        new_canvas = Canvas(5, 10)
+        new_canvas.draw_rectangle(1, 1, 4, 3)
+        new_canvas.draw_rectangle(2, 6, 5, 10)
+
+        out = StringIO()
+        user_input_array = ['B', 'a', 'b', 'v']
+
+        with redirect_stdout(out):
+            validate_and_fill_area(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('The', output_array[0])
+
+    def test_fill_area_invalid_colour(self):
+        new_canvas = Canvas(5, 10)
+        new_canvas.draw_rectangle(1, 1, 4, 3)
+        new_canvas.draw_rectangle(2, 6, 5, 10)
+
+        out = StringIO()
+        user_input_array = ['B', '5', '4', 'x']
+
+        with redirect_stdout(out):
+            validate_and_fill_area(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('Please', output_array[0])
+
+    def test_fill_area_off_canvas(self):
+        new_canvas = Canvas(5, 10)
+        new_canvas.draw_rectangle(1, 1, 4, 3)
+        new_canvas.draw_rectangle(2, 6, 5, 10)
+
+        out = StringIO()
+        user_input_array = ['B', '20', '20', 'v']
+
+        with redirect_stdout(out):
+            validate_and_fill_area(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('No', output_array[0])
+
+    def test_fill_area_on_a_line(self):
+        new_canvas = Canvas(5, 10)
+        new_canvas.draw_rectangle(1, 1, 4, 3)
+        new_canvas.draw_rectangle(2, 6, 5, 10)
+
+        out = StringIO()
+        user_input_array = ['B', '1', '1', 'v']
+
+        with redirect_stdout(out):
+            validate_and_fill_area(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('The', output_array[0])
+
 
 class TestCanvas(unittest.TestCase):
 
