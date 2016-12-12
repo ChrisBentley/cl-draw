@@ -24,6 +24,24 @@ class TestDraw(unittest.TestCase):
 
         self.assertFalse(result)
 
+    def test_print_canvas(self):
+        expected_output =   '-------' \
+                          '\n|     |' \
+                          '\n|     |' \
+                          '\n|     |' \
+                          '\n|     |' \
+                          '\n-------'
+
+        new_canvas = Canvas(5, 4)
+
+        out = StringIO()
+        with redirect_stdout(out):
+            result = print_canvas(new_canvas)
+
+        output = out.getvalue().strip()
+
+        self.assertEqual(expected_output, output)
+
 
 class TestCanvas(unittest.TestCase):
 
