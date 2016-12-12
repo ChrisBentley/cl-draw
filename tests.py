@@ -199,7 +199,7 @@ class TestDraw(unittest.TestCase):
                            [ '|',  'v',  'x',  'x',  'x', 'x', '|'],
                            [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
 
-        new_canvas = Canvas(5,10)
+        new_canvas = Canvas(5, 10)
 
         new_canvas.draw_rectangle(1, 1, 4, 3)
         new_canvas.draw_rectangle(2, 6, 5, 10)
@@ -296,7 +296,7 @@ class TestCanvas(unittest.TestCase):
                            [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
                            [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
 
-        new_canvas = Canvas(5,5)
+        new_canvas = Canvas(5, 5)
 
         new_canvas.draw_line(1, 2, 3, 2)
 
@@ -312,7 +312,7 @@ class TestCanvas(unittest.TestCase):
                            [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
                            [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
 
-        new_canvas = Canvas(5,5)
+        new_canvas = Canvas(5, 5)
 
         new_canvas.draw_line(4, 1, 4, 4)
 
@@ -328,7 +328,7 @@ class TestCanvas(unittest.TestCase):
                            [ '|',  ' ',  'x',  'x',  'x', ' ', '|'],
                            [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
 
-        new_canvas = Canvas(5,5)
+        new_canvas = Canvas(5, 5)
 
         new_canvas.draw_rectangle(2, 1, 4, 5)
 
@@ -349,7 +349,7 @@ class TestCanvas(unittest.TestCase):
                            [ '|',  ' ',  'x',  'x',  'x', 'x', '|'],
                            [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
 
-        new_canvas = Canvas(5,10)
+        new_canvas = Canvas(5, 10)
 
         new_canvas.draw_rectangle(1, 1, 4, 3)
         new_canvas.draw_rectangle(2, 6, 5, 10)
@@ -373,7 +373,7 @@ class TestCanvas(unittest.TestCase):
                            [ '|',  'v',  'x',  'x',  'x', 'x', '|'],
                            [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
 
-        new_canvas = Canvas(5,10)
+        new_canvas = Canvas(5, 10)
 
         new_canvas.draw_rectangle(1, 1, 4, 3)
         new_canvas.draw_rectangle(2, 6, 5, 10)

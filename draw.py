@@ -23,9 +23,11 @@ def check_user_input(user_input_array):
 
     return False
 
+
 def quit():
 
     sys.exit("Exiting draw.py.")
+
 
 def help_prompt():
 
@@ -37,9 +39,10 @@ def help_prompt():
     print('"B x y c" - Bucket fill which will fill the area containing the selected pixel (x,y) with the colour "c".')
     print('"Q" - Quits the draw program.\n')
 
+
 def print_canvas(canvas):
 
-    if (canvas == None):
+    if (canvas is None):
         return
 
     print('\n')
@@ -51,6 +54,7 @@ def print_canvas(canvas):
         print(row_values)
 
     print('\n')
+
 
 def validate_and_create_canvas(user_input_array):
 
@@ -71,6 +75,7 @@ def validate_and_create_canvas(user_input_array):
         return None
 
     return Canvas(w, h)
+
 
 def validate_and_draw_line(user_input_array, canvas):
     try:
@@ -97,6 +102,7 @@ def validate_and_draw_line(user_input_array, canvas):
 
     canvas.draw_line(x1, y1, x2, y2)
 
+
 def validate_and_draw_rectangle(user_input_array, canvas):
     try:
         x1 = int(user_input_array[1])
@@ -121,6 +127,7 @@ def validate_and_draw_rectangle(user_input_array, canvas):
         return
 
     canvas.draw_rectangle(x1, y1, x2, y2)
+
 
 def validate_and_fill_area(user_input_array, canvas):
     try:
@@ -163,7 +170,7 @@ def main():
 
         user_input_array = user_input.split(' ')
 
-        if (check_user_input(user_input_array) != True):
+        if (check_user_input(user_input_array) is not True):
             # Restart the while loop if the input wasn't a valid command
             continue
 
@@ -176,7 +183,7 @@ def main():
             help_prompt()
             continue
 
-        if (command != 'c' and canvas == None):
+        if (command != 'c' and canvas is None):
             print('You need to create a canvas before you can draw something.')
             continue
 
