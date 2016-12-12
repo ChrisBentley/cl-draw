@@ -99,14 +99,14 @@ def validate_and_draw_rectangle(user_input_array, canvas):
         x2 = int(user_input_array[3])
         y2 = int(user_input_array[4])
     except ValueError:
-        print('The values you entered for drawing a line were not valid.')
+        print('The values you entered for drawing a rectangle were not valid.')
         return
 
     if (x1 < 1 or x1 > canvas.width or
         y1 < 1 or y1 > canvas.height or
         x2 < 1 or x2 > canvas.width or
         y2 < 1 or y2 > canvas.height):
-        print('\nNo rectabgle was drawn because the coordinates you have entered'
+        print('\nNo rectangle was drawn because the coordinates you have entered'
               ' are not within the canvas.')
         return
 
@@ -118,7 +118,32 @@ def validate_and_draw_rectangle(user_input_array, canvas):
     canvas.draw_rectangle(x1, y1, x2, y2)
 
 def validate_and_fill_area(user_input_array, canvas):
-    pass
+    try:
+        x = int(user_input_array[1])
+        y = int(user_input_array[2])
+    except ValueError:
+        print('The values you entered as coordinates were not valid.')
+        return
+
+    c = user_input_array[3]
+
+    if (len(c) > 1 or c == 'x' or c == '|' or c == '-'):
+        print('\nPlease enter a valid colour.'
+              ' (The colour must be 1 character long and cannot be "x", "|" or "-")')
+        return
+
+    if (x < 1 or x > canvas.width or
+        y < 1 or y > canvas.height):
+        print('\nNo fill was attempted because the coordinates you have entered'
+              ' are not within the canvas.')
+        return
+
+    if (canvas.canvas[y][x] == 'x'):
+        print('\nThe coordinates you entered fell on a line'
+              ' so no fill was attempted')
+        return
+
+    canvas.fill_area(x, y, c)
 
 
 def main():
