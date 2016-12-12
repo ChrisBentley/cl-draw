@@ -2,12 +2,27 @@
 
 import unittest
 from canvas import Canvas
+from draw import *
+from io import StringIO
+from contextlib import redirect_stdout
 
 
 class TestDraw(unittest.TestCase):
 
-    def test_valid_command(self):
-        pass
+    def test_correct_check_user_input(self):
+        correct_user_input_array = ['c', '20', '4']
+
+        self.assertTrue(check_user_input(correct_user_input_array))
+
+    def test_incorrect_check_user_input(self):
+
+        incorrect_user_input_array = ['v', '20', '4']
+
+        out = StringIO()
+        with redirect_stdout(out):
+            result = check_user_input(incorrect_user_input_array)
+
+        self.assertFalse(result)
 
 
 class TestCanvas(unittest.TestCase):
