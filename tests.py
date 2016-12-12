@@ -89,7 +89,6 @@ class TestDraw(unittest.TestCase):
 
         self.assertEqual(expected_canvas, new_canvas.canvas)
 
-
     def test_incorrect_draw_line_1(self):
         out = StringIO()
         new_canvas = Canvas(5, 5)
@@ -121,6 +120,60 @@ class TestDraw(unittest.TestCase):
         user_input_array = ['L', '1', '1', '0', '4']
         with redirect_stdout(out):
             validate_and_draw_line(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('No', output_array[0])
+
+    def test_correct_draw_rectangle(self):
+
+        expected_canvas = [[ '-',  '-',  '-',  '-',  '-', '-', '-'],
+                           [ '|',  ' ',  'x',  'x',  'x', ' ', '|'],
+                           [ '|',  ' ',  'x',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  'x',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  'x',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  'x',  'x',  'x', ' ', '|'],
+                           [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
+
+        new_canvas = Canvas(5, 5)
+
+        user_input_array = ['R', '2', '1', '4', '5']
+
+        validate_and_draw_rectangle(user_input_array, new_canvas)
+
+        self.assertEqual(expected_canvas, new_canvas.canvas)
+
+    def test_incorrect_draw_rectangle_1(self):
+        out = StringIO()
+        new_canvas = Canvas(5, 5)
+
+        user_input_array = ['R', 'a', 'b', 'c', 'd']
+        with redirect_stdout(out):
+            validate_and_draw_rectangle(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('The', output_array[0])
+
+    def test_incorrect_draw_rectangle_2(self):
+        out = StringIO()
+        new_canvas = Canvas(5, 5)
+
+        user_input_array = ['R', '-1', '1', '-1', '4']
+        with redirect_stdout(out):
+            validate_and_draw_rectangle(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('No', output_array[0])
+
+    def test_incorrect_draw_rectangle_3(self):
+        out = StringIO()
+        new_canvas = Canvas(5, 5)
+
+        user_input_array = ['R', '1', '4', '1', '4']
+        with redirect_stdout(out):
+            validate_and_draw_rectangle(user_input_array, new_canvas)
         output = out.getvalue().strip()
         output_array = output.split(' ')
 
