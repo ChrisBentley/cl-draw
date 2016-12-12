@@ -93,7 +93,29 @@ def validate_and_draw_line(user_input_array, canvas):
     canvas.draw_line(x1, y1, x2, y2)
 
 def validate_and_draw_rectangle(user_input_array, canvas):
-    pass
+    try:
+        x1 = int(user_input_array[1])
+        y1 = int(user_input_array[2])
+        x2 = int(user_input_array[3])
+        y2 = int(user_input_array[4])
+    except ValueError:
+        print('The values you entered for drawing a line were not valid.')
+        return
+
+    if (x1 < 1 or x1 > canvas.width or
+        y1 < 1 or y1 > canvas.height or
+        x2 < 1 or x2 > canvas.width or
+        y2 < 1 or y2 > canvas.height):
+        print('\nNo rectabgle was drawn because the coordinates you have entered'
+              ' are not within the canvas.')
+        return
+
+    if (x1 == x2 or y1 == y2):
+        print('\nNo rectangle was drawn because the coordinates you have entered'
+              ' do not create rectangle.')
+        return
+
+    canvas.draw_rectangle(x1, y1, x2, y2)
 
 def validate_and_fill_area(user_input_array, canvas):
     pass
