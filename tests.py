@@ -71,6 +71,61 @@ class TestDraw(unittest.TestCase):
             output = validate_and_create_canvas(user_input_array)
         self.assertEqual(None, output)
 
+    def test_correct_draw_line(self):
+
+        expected_canvas = [[ '-',  '-',  '-',  '-',  '-', '-', '-'],
+                           [ '|',  ' ',  ' ',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  'x', ' ', '|'],
+                           [ '|',  ' ',  ' ',  ' ',  ' ', ' ', '|'],
+                           [ '-',  '-',  '-',  '-',  '-', '-', '-'] ]
+
+        new_canvas = Canvas(5, 5)
+
+        user_input_array = ['L', '4', '1', '4', '4']
+
+        validate_and_draw_line(user_input_array, new_canvas)
+
+        self.assertEqual(expected_canvas, new_canvas.canvas)
+
+
+    def test_incorrect_draw_line_1(self):
+        out = StringIO()
+        new_canvas = Canvas(5, 5)
+
+        user_input_array = ['L', 'a', 'b', 'c', 'd']
+        with redirect_stdout(out):
+            validate_and_draw_line(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('The', output_array[0])
+
+    def test_incorrect_draw_line_2(self):
+        out = StringIO()
+        new_canvas = Canvas(5, 5)
+
+        user_input_array = ['L', '-1', '1', '-1', '4']
+        with redirect_stdout(out):
+            validate_and_draw_line(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('No', output_array[0])
+
+    def test_incorrect_draw_line_3(self):
+        out = StringIO()
+        new_canvas = Canvas(5, 5)
+
+        user_input_array = ['L', '1', '1', '0', '4']
+        with redirect_stdout(out):
+            validate_and_draw_line(user_input_array, new_canvas)
+        output = out.getvalue().strip()
+        output_array = output.split(' ')
+
+        self.assertEqual('No', output_array[0])
+
 class TestCanvas(unittest.TestCase):
 
     def test_create_canvas(self):
