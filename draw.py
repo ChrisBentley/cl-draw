@@ -65,6 +65,11 @@ def validate_and_create_canvas(user_input_array):
         print('Please enter canvas values greater than 0.')
         return None
 
+    if (w > 1000 or h > 1000):
+        print('Please do not try to break this program by creating a '
+              'ridiculously large canvas.')
+        return None
+
     return Canvas(w, h)
 
 def validate_and_draw_line(user_input_array, canvas):
