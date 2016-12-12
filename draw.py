@@ -43,15 +43,28 @@ def print_canvas(canvas):
 
     print('\n')
 
-    for y in range(canvas.height):
-        for x in range(canvas.width):
-            print(canvas.canvas[y][x])
-        print('\n')
+    for y in range(canvas.height + 2):
+        row_values = ''
+        for x in range(canvas.width + 2):
+            row_values += canvas.canvas[y][x]
+        print(row_values)
 
     print('\n')
 
 def validate_and_create_canvas(user_input_array):
-    pass
+
+    try:
+       w = int(user_input_array[1])
+       h = int(user_input_array[2])
+    except ValueError:
+       print('The values you entered for creating a canvas were not valid.')
+       return None
+
+    if (w < 0 or h < 0):
+        print('Please enter canvas values greater than 0.')
+        return None
+
+    return Canvas(w, h)
 
 def validate_and_draw_line(user_input_array):
     pass
