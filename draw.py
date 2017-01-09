@@ -84,21 +84,18 @@ def validate_and_draw_line(user_input_array, canvas):
         x2 = int(user_input_array[3])
         y2 = int(user_input_array[4])
     except ValueError:
-        print('The values you entered for drawing a line were not valid.')
-        return
+        raise ValueError('The values you entered for drawing a line were not valid.')
 
     if (x1 < 1 or x1 > canvas.width or
         y1 < 1 or y1 > canvas.height or
         x2 < 1 or x2 > canvas.width or
         y2 < 1 or y2 > canvas.height):
-        print('\nNo line was drawn because the coordinates you have entered'
+        raise ValueError('\nNo line was drawn because the coordinates you have entered'
               ' are not within the canvas.')
-        return
 
     if (x1 != x2 and y1 != y2):
-        print('\nNo line was drawn because the coordinates you have entered'
+        raise ValueError('\nNo line was drawn because the coordinates you have entered'
               ' do not create a horizontal or vertical line.')
-        return
 
     canvas.draw_line(x1, y1, x2, y2)
 
@@ -110,21 +107,18 @@ def validate_and_draw_rectangle(user_input_array, canvas):
         x2 = int(user_input_array[3])
         y2 = int(user_input_array[4])
     except ValueError:
-        print('The values you entered for drawing a rectangle were not valid.')
-        return
+        raise ValueError('The values you entered for drawing a rectangle were not valid.')
 
     if (x1 < 1 or x1 > canvas.width or
         y1 < 1 or y1 > canvas.height or
         x2 < 1 or x2 > canvas.width or
         y2 < 1 or y2 > canvas.height):
-        print('\nNo rectangle was drawn because the coordinates you have entered'
+        raise ValueError('\nNo rectangle was drawn because the coordinates you have entered'
               ' are not within the canvas.')
-        return
 
     if (x1 == x2 or y1 == y2):
-        print('\nNo rectangle was drawn because the coordinates you have entered'
+        raise ValueError('\nNo rectangle was drawn because the coordinates you have entered'
               ' do not create rectangle.')
-        return
 
     canvas.draw_rectangle(x1, y1, x2, y2)
 
@@ -134,26 +128,22 @@ def validate_and_fill_area(user_input_array, canvas):
         x = int(user_input_array[1])
         y = int(user_input_array[2])
     except ValueError:
-        print('The values you entered as coordinates were not valid.')
-        return
+        raise ValueError('The values you entered as coordinates were not valid.')
 
     c = user_input_array[3]
 
     if (len(c) > 1 or c == 'x' or c == '|' or c == '-'):
-        print('\nPlease enter a valid colour.'
+        raise ValueError('\nPlease enter a valid colour.'
               ' (The colour must be 1 character long and cannot be "x", "|" or "-")')
-        return
 
     if (x < 1 or x > canvas.width or
         y < 1 or y > canvas.height):
-        print('\nNo fill was attempted because the coordinates you have entered'
+        raise ValueError('\nNo fill was attempted because the coordinates you have entered'
               ' are not within the canvas.')
-        return
 
     if (canvas.canvas[y][x] == 'x'):
-        print('\nThe coordinates you entered fell on a line'
+        raise ValueError('\nThe coordinates you entered fell on a line'
               ' so no fill was attempted')
-        return
 
     canvas.fill_area(x, y, c)
 
@@ -186,15 +176,18 @@ def main():
         if (command != 'c' and canvas is None):
             print('You need to create a canvas before you can draw something.')
             continue
-
-        if (command == 'c'):
-            canvas = validate_and_create_canvas(user_input_array)
-        elif (command == 'l'):
-            validate_and_draw_line(user_input_array, canvas)
-        elif (command == 'r'):
-            validate_and_draw_rectangle(user_input_array, canvas)
-        elif (command == 'b'):
-            validate_and_fill_area(user_input_array, canvas)
+        try:
+            if (command == 'c'):
+                canvas = validate_and_create_canvas(user_input_array)
+            elif (command == 'l'):
+                validate_and_draw_line(user_input_array, canvas)
+            elif (command == 'r'):
+                validate_and_draw_rectangle(user_input_array, canvas)
+            elif (command == 'b'):
+                validate_and_fill_area(user_input_array, canvas)
+        except ValueError as e:
+            print(e)
+            continue
 
         print_canvas(canvas)
 

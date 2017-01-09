@@ -95,40 +95,39 @@ class TestDraw(unittest.TestCase):
         self.assertEqual(expected_canvas, new_canvas.canvas)
 
     def test_draw_line_invalid_coords(self):
-        out = StringIO()
         new_canvas = Canvas(5, 5)
 
         user_input_array = ['L', 'a', 'b', 'c', 'd']
-        with redirect_stdout(out):
-            validate_and_draw_line(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
 
-        self.assertEqual('The', output_array[0])
+        with self.assertRaises(Exception) as context:
+            validate_and_draw_line(user_input_array, new_canvas)
+
+        self.assertTrue('The values you entered for drawing a line were not valid.'
+          in str(context.exception))
 
     def test_draw_line_off_canvas(self):
-        out = StringIO()
         new_canvas = Canvas(5, 5)
 
         user_input_array = ['L', '-1', '1', '-1', '4']
-        with redirect_stdout(out):
-            validate_and_draw_line(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
 
-        self.assertEqual('No', output_array[0])
+        with self.assertRaises(Exception) as context:
+            validate_and_draw_line(user_input_array, new_canvas)
+
+        self.assertTrue('\nNo line was drawn because the coordinates you have entered'
+              ' are not within the canvas.'
+          in str(context.exception))
 
     def test_draw_line_not_a_line(self):
-        out = StringIO()
         new_canvas = Canvas(5, 5)
 
-        user_input_array = ['L', '1', '1', '0', '4']
-        with redirect_stdout(out):
-            validate_and_draw_line(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
+        user_input_array = ['L', '1', '1', '2', '4']
 
-        self.assertEqual('No', output_array[0])
+        with self.assertRaises(Exception) as context:
+            validate_and_draw_line(user_input_array, new_canvas)
+
+        self.assertTrue('\nNo line was drawn because the coordinates you have entered'
+              ' do not create a horizontal or vertical line.'
+          in str(context.exception))
 
     def test_correct_draw_rectangle(self):
 
@@ -149,40 +148,39 @@ class TestDraw(unittest.TestCase):
         self.assertEqual(expected_canvas, new_canvas.canvas)
 
     def test_draw_rectangle_invalid_coords(self):
-        out = StringIO()
         new_canvas = Canvas(5, 5)
 
         user_input_array = ['R', 'a', 'b', 'c', 'd']
-        with redirect_stdout(out):
-            validate_and_draw_rectangle(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
 
-        self.assertEqual('The', output_array[0])
+        with self.assertRaises(Exception) as context:
+            validate_and_draw_rectangle(user_input_array, new_canvas)
+
+        self.assertTrue('The values you entered for drawing a rectangle were not valid.'
+          in str(context.exception))
 
     def test_draw_rectangle_off_canvas(self):
-        out = StringIO()
         new_canvas = Canvas(5, 5)
 
         user_input_array = ['R', '-1', '1', '-1', '4']
-        with redirect_stdout(out):
-            validate_and_draw_rectangle(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
 
-        self.assertEqual('No', output_array[0])
+        with self.assertRaises(Exception) as context:
+            validate_and_draw_rectangle(user_input_array, new_canvas)
+
+        self.assertTrue('\nNo rectangle was drawn because the coordinates you have entered'
+              ' are not within the canvas.'
+          in str(context.exception))
 
     def test_draw_rectangle_not_rectangle(self):
-        out = StringIO()
         new_canvas = Canvas(5, 5)
 
         user_input_array = ['R', '1', '4', '1', '4']
-        with redirect_stdout(out):
-            validate_and_draw_rectangle(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
 
-        self.assertEqual('No', output_array[0])
+        with self.assertRaises(Exception) as context:
+            validate_and_draw_rectangle(user_input_array, new_canvas)
+
+        self.assertTrue('\nNo rectangle was drawn because the coordinates you have entered'
+              ' do not create rectangle.'
+          in str(context.exception))
 
     def test_correct_fill_area(self):
 
@@ -215,60 +213,55 @@ class TestDraw(unittest.TestCase):
         new_canvas.draw_rectangle(1, 1, 4, 3)
         new_canvas.draw_rectangle(2, 6, 5, 10)
 
-        out = StringIO()
         user_input_array = ['B', 'a', 'b', 'v']
 
-        with redirect_stdout(out):
+        with self.assertRaises(Exception) as context:
             validate_and_fill_area(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
 
-        self.assertEqual('The', output_array[0])
+        self.assertTrue('The values you entered as coordinates were not valid.'
+          in str(context.exception))
 
     def test_fill_area_invalid_colour(self):
         new_canvas = Canvas(5, 10)
         new_canvas.draw_rectangle(1, 1, 4, 3)
         new_canvas.draw_rectangle(2, 6, 5, 10)
 
-        out = StringIO()
         user_input_array = ['B', '5', '4', 'x']
 
-        with redirect_stdout(out):
+        with self.assertRaises(Exception) as context:
             validate_and_fill_area(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
 
-        self.assertEqual('Please', output_array[0])
+        self.assertTrue('\nPlease enter a valid colour.'
+              ' (The colour must be 1 character long and cannot be "x", "|" or "-")'
+          in str(context.exception))
 
     def test_fill_area_off_canvas(self):
         new_canvas = Canvas(5, 10)
         new_canvas.draw_rectangle(1, 1, 4, 3)
         new_canvas.draw_rectangle(2, 6, 5, 10)
 
-        out = StringIO()
         user_input_array = ['B', '20', '20', 'v']
 
-        with redirect_stdout(out):
+        with self.assertRaises(Exception) as context:
             validate_and_fill_area(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
 
-        self.assertEqual('No', output_array[0])
+        self.assertTrue('\nNo fill was attempted because the coordinates you have entered'
+              ' are not within the canvas.'
+          in str(context.exception))
 
     def test_fill_area_on_a_line(self):
         new_canvas = Canvas(5, 10)
         new_canvas.draw_rectangle(1, 1, 4, 3)
         new_canvas.draw_rectangle(2, 6, 5, 10)
 
-        out = StringIO()
         user_input_array = ['B', '1', '1', 'v']
 
-        with redirect_stdout(out):
+        with self.assertRaises(Exception) as context:
             validate_and_fill_area(user_input_array, new_canvas)
-        output = out.getvalue().strip()
-        output_array = output.split(' ')
 
-        self.assertEqual('The', output_array[0])
+        self.assertTrue('\nThe coordinates you entered fell on a line'
+              ' so no fill was attempted'
+          in str(context.exception))
 
 
 class TestCanvas(unittest.TestCase):
