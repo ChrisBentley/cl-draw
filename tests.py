@@ -47,17 +47,37 @@ class TestDraw(unittest.TestCase):
     def test_correct_create_canvas(self):
 
         expected_output = Canvas(20, 4)
+
         user_input_array = ['c', '20', '4']
-        output = validate_and_create_canvas(user_input_array)
+        output = validate_and_create_canvas(user_input_array, Canvas(10, 2))
 
         self.assertEqual(expected_output.canvas, output.canvas)
+
+    def test_clear_canvas(self):
+        expected_output = Canvas(20, 5)
+
+        user_input_array = ['c']
+        output = validate_and_create_canvas(user_input_array, Canvas(20, 5))
+
+        self.assertEqual(expected_output.canvas, output.canvas)
+
+    def test_clear_canvas_without_existing_canvas(self):
+        expected_output = Canvas(20, 5)
+
+        user_input_array = ['c']
+
+        with self.assertRaises(Exception) as context:
+            validate_and_create_canvas(user_input_array, None)
+
+        self.assertTrue('\nYou must create a canvas before you can clear it.'
+          in str(context.exception))
 
     def test_create_canvas_invalid_coords(self):
         out = StringIO()
 
         user_input_array = ['c', 'a', '4']
         with redirect_stdout(out):
-            output = validate_and_create_canvas(user_input_array)
+            output = validate_and_create_canvas(user_input_array, None)
         self.assertEqual(None, output)
 
     def test_create_canvas_0_dimension_canvas(self):
@@ -65,7 +85,7 @@ class TestDraw(unittest.TestCase):
 
         user_input_array = ['c', '0', '0']
         with redirect_stdout(out):
-            output = validate_and_create_canvas(user_input_array)
+            output = validate_and_create_canvas(user_input_array, None)
         self.assertEqual(None, output)
 
     def test_create_canvas_extremely_large(self):
@@ -73,7 +93,7 @@ class TestDraw(unittest.TestCase):
 
         user_input_array = ['c', '10000', '10000']
         with redirect_stdout(out):
-            output = validate_and_create_canvas(user_input_array)
+            output = validate_and_create_canvas(user_input_array, None)
         self.assertEqual(None, output)
 
     def test_correct_draw_line(self):

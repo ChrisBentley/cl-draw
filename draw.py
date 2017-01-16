@@ -34,6 +34,7 @@ def help_prompt():
     print('\nAvailable commands:')
     print('"h" - Displays this help prompt.')
     print('"C w h" - Creates a canvas of width "w" and height "h".')
+    print('"C" - Clear the canvas of all lines and colours.')
     print('"L x1 y1 x2 y2" - Creates a new line from (x1,y1) to (x2,y2) Only horizontal and vertical lines are supported.')
     print('"R x1 y1 x2 y2" - Creates a rectangle from upper left corner (x1,y1) to lower right corner (x2,y2).')
     print('"B x y c" - Bucket fill which will fill the area containing the selected pixel (x,y) with the colour "c".')
@@ -56,7 +57,12 @@ def print_canvas(canvas):
     print('\n')
 
 
-def validate_and_create_canvas(user_input_array):
+def validate_and_create_canvas(user_input_array, canvas):
+
+    if (len(user_input_array) == 1):
+        if canvas is None:
+            raise ValueError('\nYou must create a canvas before you can clear it.')
+        return Canvas(canvas.width, canvas.height)
 
     try:
         w = int(user_input_array[1])
@@ -99,6 +105,8 @@ def validate_and_draw_line(user_input_array, canvas):
 
     canvas.draw_line(x1, y1, x2, y2)
 
+    return canvas
+
 
 def validate_and_draw_rectangle(user_input_array, canvas):
     try:
@@ -121,6 +129,8 @@ def validate_and_draw_rectangle(user_input_array, canvas):
               ' do not create rectangle.')
 
     canvas.draw_rectangle(x1, y1, x2, y2)
+
+    return canvas
 
 
 def validate_and_fill_area(user_input_array, canvas):
@@ -146,6 +156,8 @@ def validate_and_fill_area(user_input_array, canvas):
               ' so no fill was attempted')
 
     canvas.fill_area(x, y, c)
+
+    return canvas
 
 
 def main():
@@ -177,14 +189,21 @@ def main():
             print('You need to create a canvas before you can draw something.')
             continue
         try:
-            if (command == 'c'):
-                canvas = validate_and_create_canvas(user_input_array)
-            elif (command == 'l'):
-                validate_and_draw_line(user_input_array, canvas)
-            elif (command == 'r'):
-                validate_and_draw_rectangle(user_input_array, canvas)
-            elif (command == 'b'):
-                validate_and_fill_area(user_input_array, canvas)
+            command_dict = {'c': validate_and_create_canvas,
+                            'l': validate_and_draw_line,
+                            'r': validate_and_draw_rectangle,
+                            'b': validate_and_fill_area}
+
+            canvas = command_dict[command](user_input_array, canvas)
+
+            # if (command == 'c'):
+            #     canvas = validate_and_create_canvas(user_input_array, canvas)
+            # elif (command == 'l'):
+            #     validate_and_draw_line(user_input_array, canvas)
+            # elif (command == 'r'):
+            #     validate_and_draw_rectangle(user_input_array, canvas)
+            # elif (command == 'b'):
+            #     validate_and_fill_area(user_input_array, canvas)
         except ValueError as e:
             print(e)
             continue
